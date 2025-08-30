@@ -1,3 +1,4 @@
+# properties/models.py
 from django.db import models
 
 class Property(models.Model):
