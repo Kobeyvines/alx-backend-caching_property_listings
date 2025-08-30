@@ -1,19 +1,9 @@
-# properties/signals.py
-from django.db.models.signals import post_save, post_delete
-from django.dispatch import receiver
-from django.core.cache import cache
-from .models import Property
+# properties/apps.py
 from django.apps import AppConfig
 
-
 class PropertiesConfig(AppConfig):
-    default_auto_field = "django.db.models.BigAutoField"
-    name = "properties"
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'properties'
 
-@receiver(post_save, sender=Property)
-def invalidate_cache_on_save(sender, instance, **kwargs):
-    cache.delete('all_properties')
-
-@receiver(post_delete, sender=Property)
-def invalidate_cache_on_delete(sender, instance, **kwargs):
-    cache.delete('all_properties')
+    def ready(self):
+        import properties.signals
